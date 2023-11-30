@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title> Welcome {{ user }}</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    </head>
+    <body>
+        <div class="d-flex justify-content-end">
+            <form action="/logout">
+                <input type="submit" value="Log Out" class="btn btn-warning">
+            </form> 
+        </div>
+        <h1 class="container mt-5">Welcome {{ user }}</h1>
+        <div id="add_item" class="container">
+                <input type="text" id="searchInput" placeholder="Browse shows" title="Type show name">
+                <table id="showTable" class="table table-hover text-center">
+                    <<tr><th>Shows</th><th>Seats</th><th>Ticket Price</th>
+                        <th>Ratings</th><th>Theatre</th><th>Place</th><th>Number of Seats</th><th>Buy</th></tr>
+                    {% for item in all_data %}                    
+            <form action="/buyseats/{{ user }}/{{item[0]}}" method="POST">
+                <tr><td>{{ item[1] }}</td>
+                    <td>{{ item[2] }}</td>
+                    <td>{{ item[3] }}</td>
+                    <td>{{ item[4] }}</td>
+                    <td>{{ item[6] }}</td>
+                    <td>{{ item[7] }}</td>
+                    <td><input type="number" min="1" step="1" pattern="\d+" name="seat{{item[0]}}" id="{{ item[0] }}"></td>
+                    <td><input type="submit" class="btn btn-primary" value="Buy Seats" onclick="return confirmBuy('{{ item[1] }}', '{{ item[0] }}')"></td></tr>
+            </form>
+                    {% endfor %}
+                </table>
+                <script>
+                    function confirmBuy(showName,seatid) {
+                    var seats = document.getElementById(seatid).value;                    
+                    var confirmationMessage = "Buying " + seats + " seats for '" + showName + "' ?";                    
+                    return confirm(confirmationMessage);
+                }
+                </script>
+        </div>
+        <script>
+            document.getElementById("searchInput").addEventListener("keyup", function () {
+                var input, filter, table, tr, td, i, j, txtValue;
+                input = document.getElementById("searchInput");
+                filter = input.value.toUpperCase();
+                table = document.getElementById("showTable");
+                tr = table.getElementsByTagName("tr");
+        
+                for (i = 1; i < tr.length; i++) {
+                    tr[i].style.display = "none"; // Hide the row by default
+                    for (j = 0; j < tr[i].cells.length; j++) {
+                        td = tr[i].cells[j];
+                        if (td) {
+                            txtValue = td.textContent || td.innerText;
+                            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                                tr[i].style.display = ""; // Display the row if any cell matches
+                                break; // No need to check other cells once a match is found
+                            }
+                        }
+                    }
+                }
+            });
+        </script>
+        
+    </body>
+</html>

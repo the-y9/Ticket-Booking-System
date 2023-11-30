@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title> Welcome</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles-dark.css') }}">
+
+    </head>
+    <body>
+        <!-- <button id="darkModeToggle">Toggle Dark Mode</button> -->
+        <div class="container mt-5">
+            <h1>Welcome</h1>
+            <br>
+            <form action="/signup">
+                <button type="submit" class="btn btn-primary">Sign Up</button>
+            </form><br>
+            <form action="/login">
+                <button type="submit" class="btn btn-primary">Login</button>
+            </form>
+    </div>
+    </body>
+</html>

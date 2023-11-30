@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Update show - {{ show[1] }}</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    </head>
+    <body>
+        <div class="d-flex justify-content-between">            
+            <form action="/admin/{{user}}">
+                <input type="submit" value="Admin" class="btn btn-success ">
+            </form>   
+            <form action="/logout">
+                <input type="submit" value="Log Out" class="btn btn-warning">
+            </form> 
+        </div>
+        <div class="container mt-5">
+        <h1 class="container mt-5">
+            Update show - {{ show[1] }}
+        </h1>
+        <br>
+        <form action="/updateshow/{{user}}/{{show[0]}}" method="POST">
+            <table class="table table-hover text-center">
+                <tr><th>Attribute</th><th>Current</th><th>Updated</th></tr>
+                <tr><td>Show</td><td>{{show[1]}}</td><td><input type="text" name="mname" value="{{show[1]}}"> </td></tr>
+                <tr><td>Seats</td><td>{{show[2]}}</td><td><input type="text" name="mseats" value="{{show[2]}}"> </td></tr>
+                <tr><td>Ticket Price</td><td>{{show[3]}}</td><td><input type="text" name="mprice" value="{{show[3]}}"> </td></tr>
+                <tr><td>Ratings</td><td>{{show[4]}}</td><td><input type="text" name="mrate" value="{{show[4]}}"> </td></tr>
+                <tr><td>Theatre</td><td>{{show[6]}}</td><td><input type="text" name="mtheatre" value="{{show[6]}}"> </td></tr>
+                <tr><td>Place</td><td>{{show[7]}}</td><td><input type="text" name="mplace" value="{{show[7]}}"> </td></tr>
+            </table>
+            <div class="d-flex justify-content-end">
+                <input type="submit" Value="Update " class="btn btn-primary mr-2">
+                </form>
+                <form action="/admin/{{user}}">
+                    <input type="submit" Value="Cancel" class="btn btn-danger ">
+                </form>
+            </div>
+        
+        </div>
+    </body>
+</html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title> show List</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    </head>
+    <body>
+        <div class="d-flex justify-content-between">  
+            <form action="/manadmin/{{user}}">
+                <input type="submit" value="Manage Admin" class="btn btn-success">
+            </form>          
+            <form action="/logout">
+                <input type="submit" value="Log Out" class="btn btn-warning">
+            </form> 
+        </div>
+        <div id="shows" class="container mt-5">
+            <h1 class="mb-4">Admin - {{user}}</h1>
+            <form action="/add_shows/{{user}}" method="POST" onsubmit="return confirmAddshow()">
+                <label  class="form-label" for="newshow"> New show </label><input class="form-control" label="New show" name="show" id="newshow">
+                <label class="form-label" for="noofseats"> Seats </label><input class="form-control" name="seats" value="100" id="noofseats">
+                <label  class="form-label" for="tprice"> Price </label><input class="form-control"  name="tprice" id="tprice" value="300">
+                <label class="form-label" for="rate"> Ratings </label><input class="form-control" name="rate"  id="rate">
+                <label  class="form-label" for="theatre"> Theatre </label><input class="form-control" label="theatre" name="theatre" id="theatre">
+                <label class="form-label" for="place"> Place </label><input class="form-control" name="place" id="place">
+            
+                <br>
+            <div class="d-flex justify-content-between">
+                <input type="submit" value="Add show" class="btn btn-primary">
+            </form> 
+            <form>
+                <input type="text" id="searchInput" placeholder="Search shows" title="Type in a show">
+            </form> 
+            </div>          
+            <script>
+                function confirmAddshow() {
+                    var showName = document.getElementById("newshow").value;                   
+                    var confirmationMessage = "Adding show - " + showName +  " !";                    
+                    return confirm(confirmationMessage);
+                }
+            </script>
+            <br>
+                <table id="showTable" class="table table-hover text-center">
+                    <tr><th>Shows</th><th>Seats</th><th>Ticket Price</th>
+                        <th>Ratings</th><th>Theatre</th><th>Place</th><th colspan="2">Action</th></tr>
+                    {% for item in all_data %}
+                    <tr><td>{{ item[1] }}</td>
+                        <td>{{ item[2] }}</td>
+                        <td>{{ item[3] }}</td>
+                        <td>{{ item[4] }}</td>
+                        <td>{{ item[6] }}</td>
+                        <td>{{ item[7] }}</td>
+                        <td class="d-flex justify-content-center">
+                            <form action="/delete_show/{{user}}/{{ item[0] }}" method="POST" onsubmit="return confirm('Are you sure you want to delete the show - {{item[1]}} with {{item[2]}} seats?')">
+                                <input type="submit" value="Delete" class="btn btn-danger me-1">
+                            </form>                        
+                            <form action="/update_page/{{user}}/{{ item[0] }}" method="POST">
+                                <input type="submit" value="Update" class="btn btn-light me-1" onclick="showUpdatePrompt('{{ item[0] }}', '{{ item[1] }}', '{{ item[2] }}')">
+                            </form>
+                        <!-- <script>
+                            function showUpdatePrompt(showId, currentName, currentSeats) {
+                                const newName = prompt(`Update show Name (current: ${currentName}):`, currentName);
+                                console.log(newName);
+                                if (newName === null) {
+                                    return false;  // Cancelled, prevent form submission
+                                }
+                        
+                                const newSeats = prompt(`Update Seats (current: ${currentSeats}):`, currentSeats);
+                                console.log(newSeats);
+                                if (newSeats === null) {
+                                    return false;  // Cancelled, prevent form submission
+                                }
+
+                                const form = document.querySelector(`form[action="/update_show/${showId}"]`);
+                                form.querySelector('input[name="updated_show_name"]').value = newName;
+                                form.querySelector('input[name="updated_seats"]').value = newSeats;
+                                form.submit();  // Submit the form
+                                return false;  // Prevent default button behavior
+                            }
+                        </script> -->
+                    </td></tr>
+                    {% endfor %}
+                </table>            
+                <script>
+                    document.getElementById("searchInput").addEventListener("keyup", function () {
+                        var input, filter, table, tr, td, i, j, txtValue;
+                        input = document.getElementById("searchInput");
+                        filter = input.value.toUpperCase();
+                        table = document.getElementById("showTable");
+                        tr = table.getElementsByTagName("tr");
+                
+                        for (i = 1; i < tr.length; i++) {
+                            tr[i].style.display = "none"; // Hide the row by default
+                            for (j = 0; j < tr[i].cells.length; j++) {
+                                td = tr[i].cells[j];
+                                if (td) {
+                                    txtValue = td.textContent || td.innerText;
+                                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                                        tr[i].style.display = ""; // Display the row if any cell matches
+                                        break; // No need to check other cells once a match is found
+                                    }
+                                }
+                            }
+                        }
+                    });
+                </script>
+                
+        </div>
+    </body>
+</html>
